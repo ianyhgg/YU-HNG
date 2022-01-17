@@ -1,0 +1,40 @@
+#include <LiquidCrystal.h>
+#define LED_PIN 7
+#define BUTTON_PIN 6
+int i = 0;
+int delayValue;
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+void setup() {
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(LED_PIN, OUTPUT);
+  Serial.begin(9600);
+  lcd.begin(16, 2);
+  lcd.print("Delay Value:");
+
+}
+
+void loop() {
+  int buttonState;
+  buttonState = digitalRead(BUTTON_PIN);
+
+  if (i == 12) {
+    i = 0;
+  }
+
+  if (buttonState == LOW) {
+    i++;
+  }
+  
+  lcd.setCursor(11, 0);
+  lcd.print(int(delayValue));
+  lcd.setCursor(11, 1);
+  lcd.print(" ");
+
+  
+  delayValue = map(i, 0, 12, 1000, 100);
+  digitalWrite(LED_PIN, HIGH);
+  delay(delayValue);
+  digitalWrite(LED_PIN, LOW);
+  delay(delayValue);
+}
